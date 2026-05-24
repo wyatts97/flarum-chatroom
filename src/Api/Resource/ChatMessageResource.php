@@ -89,8 +89,9 @@ class ChatMessageResource extends AbstractDatabaseResource
         ];
     }
 
-    public function creating(ChatMessage $model, Context $context): void
+    public function creating(object $model, Context $context): void
     {
+        /** @var ChatMessage $model */
         $actor = $context->getActor();
         $data = $context->body();
         $attributes = Arr::get($data, 'attributes', []);
@@ -120,8 +121,9 @@ class ChatMessageResource extends AbstractDatabaseResource
         $model->ip_address = $context->request()->getServerParams()['REMOTE_ADDR'] ?? null;
     }
 
-    public function created(ChatMessage $model, Context $context): void
+    public function created(object $model, Context $context): void
     {
+        /** @var ChatMessage $model */
         $this->events->dispatch(new ChatMessagePosted($model, $context->getActor()));
     }
 }
