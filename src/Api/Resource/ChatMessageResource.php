@@ -55,8 +55,7 @@ class ChatMessageResource extends AbstractDatabaseResource
                 ->paginate(50, 100)
                 ->authenticated(),
             Endpoint\Create::make()
-                ->authenticated()
-                ->can('createChatMessage'),
+                ->authenticated(),
             Endpoint\Delete::make()
                 ->authenticated()
                 ->can('deleteChatMessage'),
@@ -95,6 +94,11 @@ class ChatMessageResource extends AbstractDatabaseResource
     {
         /** @var ChatMessage $model */
         $actor = $context->getActor();
+
+        if (! $actor->isRegisteredUser()) {
+            throw new ValidationException(['content' => ['You must be logged in to send messages.']]);
+        }
+
         $content = trim((string) $model->content);
 
         $maxLength = (int) $this->settings->get('wyatts97.chatroom.max_message_length', 1000);

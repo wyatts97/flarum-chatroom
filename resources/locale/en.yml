@@ -15,6 +15,9 @@ wyatts97-chatroom:
       delete_error: Failed to delete message.
       new_messages: New messages
   admin:
+    permissions:
+      create_chat_message_label: Send chat messages
+      delete_chat_message_label: Delete chat messages
     settings:
       polling_interval_label: Polling interval (ms)
       flood_control_label: Flood control (seconds)

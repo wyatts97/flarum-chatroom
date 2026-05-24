@@ -42,5 +42,23 @@ export default [
         max: 500,
       }),
       40
+    )
+    .permission(
+      () => ({
+        icon: 'fas fa-comments',
+        label: app.translator.trans('wyatts97-chatroom.admin.permissions.create_chat_message_label', {}, true),
+        permission: 'createChatMessage',
+      }),
+      'start',
+      50
+    )
+    .permission(
+      () => ({
+        icon: 'fas fa-trash',
+        label: app.translator.trans('wyatts97-chatroom.admin.permissions.delete_chat_message_label', {}, true),
+        permission: 'deleteChatMessage',
+      }),
+      'moderate',
+      50
     ),
 ];

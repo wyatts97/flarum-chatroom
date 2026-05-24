@@ -11,13 +11,38 @@ interface IAttrs {
   isGrouped: boolean;
 }
 
+function safeDate(value: any): Date | null {
+  if (!value) return null;
+  const d = value instanceof Date ? value : new Date(value);
+  return isNaN(d.getTime()) ? null : d;
+}
+
+function formatShortTime(date: Date | null): string {
+  if (!date) return '';
+  try {
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  } catch (e) {
+    return '';
+  }
+}
+
+function formatDateTitle(date: Date | null): string {
+  if (!date) return '';
+  try {
+    return date.toLocaleString();
+  } catch (e) {
+    return '';
+  }
+}
+
 export default class ChatMessageItem extends Component<IAttrs> {
   view(vnode: Mithril.Vnode<IAttrs>) {
     const { message, onDelete, isGrouped } = vnode.attrs;
     const user = message.user?.() || null;
     const canDelete = message.canDelete?.() ?? false;
-    const createdAt = message.createdAt();
-    const shortTime = createdAt ? new Date(createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+    const createdAt = safeDate(message.createdAt());
+    const editedAt = safeDate(message.editedAt());
+    const shortTime = formatShortTime(createdAt);
 
     if (isGrouped) {
       return (
@@ -51,9 +76,9 @@ export default class ChatMessageItem extends Component<IAttrs> {
             <span className="ChatMessageItem-author">
               {user ? username(user) : app.translator.trans('core.lib.username.deleted_text')}
             </span>
-            <span className="ChatMessageItem-time">{humanTime(createdAt)}</span>
-            {message.editedAt() && (
-              <span className="ChatMessageItem-edited" title={message.editedAt()}>
+            <span className="ChatMessageItem-time">{createdAt ? humanTime(createdAt) : ''}</span>
+            {editedAt && (
+              <span className="ChatMessageItem-edited" title={formatDateTitle(editedAt)}>
                 {app.translator.trans('wyatts97-chatroom.forum.chat.edited')}
               </span>
             )}
