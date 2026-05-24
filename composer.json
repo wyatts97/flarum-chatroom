@@ -1,0 +1,27 @@
+{
+    "name": "acme/flarum-chatroom",
+    "description": "A real-time chatroom extension for Flarum v2.x",
+    "keywords": ["flarum", "chat", "messaging", "real-time"],
+    "type": "flarum-extension",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.2",
+        "flarum/core": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Acme\\Chatroom\\": "src/"
+        }
+    },
+    "extra": {
+        "flarum-extension": {
+            "title": "Chatroom",
+            "category": "feature",
+            "icon": {
+                "name": "fas fa-comments",
+                "backgroundColor": "#4d698e",
+                "color": "#fff"
+            }
+        }
+    }
+}
