@@ -5,14 +5,12 @@ declare(strict_types=1);
 use Wyatts97\Chatroom\Api\Controller\CreateChatMessageController;
 use Wyatts97\Chatroom\Api\Controller\DeleteChatMessageController;
 use Wyatts97\Chatroom\Api\Controller\ListChatMessagesController;
-use Wyatts97\Chatroom\Api\Serializer\ChatMessageSerializer;
 use Wyatts97\Chatroom\Model\ChatMessage;
 use Wyatts97\Chatroom\Policy\ChatMessagePolicy;
 use Wyatts97\Chatroom\Provider\ChatroomServiceProvider;
 use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Extend;
 use Flarum\Settings\SettingsRepositoryInterface;
-use Illuminate\Contracts\Events\Dispatcher;
 
 return [
     new Extend\Locales(__DIR__ . '/resources/locale'),
@@ -31,9 +29,6 @@ return [
         ->cast('user_id', 'int')
         ->cast('created_at', 'datetime')
         ->cast('updated_at', 'datetime'),
-
-    (new Extend\ApiResource(ChatMessage::class))
-        ->serializer(ChatMessageSerializer::class),
 
     (new Extend\Routes('api'))
         ->get('/chat/messages', 'wyatts97.chatroom.messages.index', ListChatMessagesController::class)
