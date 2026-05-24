@@ -60,7 +60,7 @@ class ChatMessageResource extends AbstractDatabaseResource
             Endpoint\Index::make()
                 ->defaultInclude(['user', 'editedUser'])
                 ->authenticated()
-                ->paginate(100, 100),
+                ->limit(100, 100),
             Endpoint\Create::make()
                 ->authenticated()
                 ->can('createChatMessage'),
@@ -94,16 +94,14 @@ class ChatMessageResource extends AbstractDatabaseResource
     {
         /** @var ChatMessage $model */
         $actor = $context->getActor();
-        $data = $context->body();
-        $attributes = Arr::get($data, 'attributes', []);
-        $content = trim((string) Arr::get($attributes, 'content', ''));
+        $content = trim((string) $model->content);
 
         $maxLength = (int) $this->settings->get('wyatts97.chatroom.max_message_length', 1000);
         if (mb_strlen($content) === 0) {
-            throw new ValidationException(['message' => ['The message cannot be empty.']]);
+            throw new ValidationException(['content' => ['The message cannot be empty.']]);
         }
         if (mb_strlen($content) > $maxLength) {
-            throw new ValidationException(['message' => ["The message may not be longer than {$maxLength} characters."]]);
+            throw new ValidationException(['content' => ["The message may not be longer than {$maxLength} characters."]]);
         }
 
         $floodSeconds = (int) $this->settings->get('wyatts97.chatroom.flood_control_seconds', 5);
@@ -114,7 +112,7 @@ class ChatMessageResource extends AbstractDatabaseResource
                 ->first();
 
             if ($latest && $latest->created_at->diffInSeconds(Carbon::now()) < $floodSeconds) {
-                throw new ValidationException(['message' => ['Please wait a moment before sending another message.']]);
+                throw new ValidationException(['content' => ['Please wait a moment before sending another message.']]);
             }
         }
 
