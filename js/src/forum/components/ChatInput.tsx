@@ -27,7 +27,7 @@ export default class ChatInput extends Component<IAttrs> {
   }
 
   view(vnode: Mithril.Vnode<IAttrs>) {
-    const maxLength = Number(app.forum.attribute('acmeChatroomMaxMessageLength')) || 1000;
+    const maxLength = Number(app.forum.attribute('wyatts97ChatroomMaxMessageLength')) || 1000;
     const disabled = this.sending || !this.value.trim();
 
     return (
@@ -35,7 +35,7 @@ export default class ChatInput extends Component<IAttrs> {
         <div className="ChatInput-field">
           <textarea
             className="FormControl ChatInput-textarea"
-            placeholder={app.translator.trans('acme-chatroom.forum.chat.placeholder')}
+            placeholder={app.translator.trans('wyatts97-chatroom.forum.chat.placeholder')}
             maxlength={maxLength}
             value={this.value}
             oninput={(e: Event) => {
@@ -54,7 +54,7 @@ export default class ChatInput extends Component<IAttrs> {
           disabled={disabled}
         >
           <i className="fas fa-paper-plane" />
-          {app.translator.trans('acme-chatroom.forum.chat.send')}
+          {app.translator.trans('wyatts97-chatroom.forum.chat.send')}
         </button>
       </div>
     );

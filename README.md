@@ -22,7 +22,7 @@ A real-time chatroom extension for Flarum v2.x.
 ## Installation
 
 ```bash
-composer require acme/flarum-chatroom
+composer require wyatts97/flarum-chatroom
 php flarum migrate
 php flarum cache:clear
 ```

@@ -29,7 +29,7 @@ export default class ChatMessageItem extends Component<IAttrs> {
             <span className="ChatMessageItem-time">{humanTime(message.createdAt())}</span>
             {message.editedAt() && (
               <span className="ChatMessageItem-edited" title={message.editedAt()}>
-                {app.translator.trans('acme-chatroom.forum.chat.edited')}
+                {app.translator.trans('wyatts97-chatroom.forum.chat.edited')}
               </span>
             )}
           </div>
@@ -39,7 +39,7 @@ export default class ChatMessageItem extends Component<IAttrs> {
               <button
                 className="Button Button--icon Button--link ChatMessageItem-delete"
                 onclick={() => onDelete(message.id())}
-                title={app.translator.trans('acme-chatroom.forum.chat.delete')}
+                title={app.translator.trans('wyatts97-chatroom.forum.chat.delete')}
               >
                 <i className="fas fa-trash" />
               </button>

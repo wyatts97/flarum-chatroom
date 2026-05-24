@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Acme\Chatroom\Model;
+namespace Wyatts97\Chatroom\Model;
 
 use Flarum\Database\AbstractModel;
 use Flarum\User\User;

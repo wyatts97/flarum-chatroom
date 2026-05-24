@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Acme\Chatroom\Api\Controller;
+namespace Wyatts97\Chatroom\Api\Controller;
 
-use Acme\Chatroom\Model\ChatMessage;
+use Wyatts97\Chatroom\Model\ChatMessage;
 use Flarum\Api\Controller\AbstractListController;
 use Flarum\Http\RequestUtil;
 use Psr\Http\Message\ServerRequestInterface;
@@ -12,7 +12,7 @@ use Tobscure\JsonApi\Document;
 
 class ListChatMessagesController extends AbstractListController
 {
-    public $serializer = \Acme\Chatroom\Api\Serializer\ChatMessageSerializer::class;
+    public $serializer = \Wyatts97\Chatroom\Api\Serializer\ChatMessageSerializer::class;
     public $include = ['user', 'editedUser'];
 
     protected function data(ServerRequestInterface $request, Document $document): iterable

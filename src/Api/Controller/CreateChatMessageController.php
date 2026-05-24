@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Acme\Chatroom\Api\Controller;
+namespace Wyatts97\Chatroom\Api\Controller;
 
-use Acme\Chatroom\Event\ChatMessagePosted;
-use Acme\Chatroom\Model\ChatMessage;
+use Wyatts97\Chatroom\Event\ChatMessagePosted;
+use Wyatts97\Chatroom\Model\ChatMessage;
 use Carbon\Carbon;
 use Flarum\Api\Controller\AbstractCreateController;
 use Flarum\Foundation\ValidationException;
@@ -18,7 +18,7 @@ use Tobscure\JsonApi\Document;
 
 class CreateChatMessageController extends AbstractCreateController
 {
-    public $serializer = \Acme\Chatroom\Api\Serializer\ChatMessageSerializer::class;
+    public $serializer = \Wyatts97\Chatroom\Api\Serializer\ChatMessageSerializer::class;
     public $include = ['user'];
 
     public function __construct(
@@ -36,7 +36,7 @@ class CreateChatMessageController extends AbstractCreateController
         $attributes = Arr::get($data, 'attributes', []);
         $content = trim((string) Arr::get($attributes, 'content', ''));
 
-        $maxLength = (int) $this->settings->get('acme.chatroom.max_message_length', 1000);
+        $maxLength = (int) $this->settings->get('wyatts97.chatroom.max_message_length', 1000);
         if (mb_strlen($content) === 0) {
             throw new ValidationException(['message' => ['The message cannot be empty.']]);
         }
@@ -44,7 +44,7 @@ class CreateChatMessageController extends AbstractCreateController
             throw new ValidationException(['message' => ["The message may not be longer than {$maxLength} characters."]]);
         }
 
-        $floodSeconds = (int) $this->settings->get('acme.chatroom.flood_control_seconds', 5);
+        $floodSeconds = (int) $this->settings->get('wyatts97.chatroom.flood_control_seconds', 5);
         if ($floodSeconds > 0) {
             $latest = ChatMessage::query()
                 ->where('user_id', $actor->id)

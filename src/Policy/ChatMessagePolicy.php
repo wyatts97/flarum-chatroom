@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Acme\Chatroom\Policy;
+namespace Wyatts97\Chatroom\Policy;
 
-use Acme\Chatroom\Model\ChatMessage;
+use Wyatts97\Chatroom\Model\ChatMessage;
 use Flarum\User\Access\AbstractPolicy;
 use Flarum\User\User;
 

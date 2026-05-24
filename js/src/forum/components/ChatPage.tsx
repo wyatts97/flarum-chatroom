@@ -26,7 +26,7 @@ export default class ChatPage extends Page {
   }
 
   startPolling() {
-    const interval = Number(app.forum.attribute('acmeChatroomPollingInterval')) || 3000;
+    const interval = Number(app.forum.attribute('wyatts97ChatroomPollingInterval')) || 3000;
     this.pollingInterval = setInterval(() => {
       this.loadMessages(true);
     }, interval);
@@ -35,7 +35,7 @@ export default class ChatPage extends Page {
   loadMessages(sinceOnly = false) {
     const params: Record<string, string> = {
       include: 'user,editedUser',
-      limit: String(app.forum.attribute('acmeChatroomMessageLimit') || 100),
+      limit: String(app.forum.attribute('wyatts97ChatroomMessageLimit') || 100),
     };
 
     if (this.lastFetch) {
@@ -50,7 +50,7 @@ export default class ChatPage extends Page {
           const newMessages = results.filter((m) => !existingIds.has(m.id()));
           this.messages.push(...newMessages);
           // Keep within limit
-          const limit = Number(app.forum.attribute('acmeChatroomMessageLimit')) || 100;
+          const limit = Number(app.forum.attribute('wyatts97ChatroomMessageLimit')) || 100;
           if (this.messages.length > limit) {
             this.messages = this.messages.slice(-limit);
           }
@@ -75,11 +75,11 @@ export default class ChatPage extends Page {
           <div className="ChatroomPage-header">
             <h2 className="ChatroomPage-title">
               <i className="fas fa-comments" />
-              {app.translator.trans('acme-chatroom.forum.chat.title')}
+              {app.translator.trans('wyatts97-chatroom.forum.chat.title')}
             </h2>
             <div className="ChatroomPage-status">
               <span className="ChatroomPage-statusDot" />
-              {app.translator.trans('acme-chatroom.forum.chat.online_status')}
+              {app.translator.trans('wyatts97-chatroom.forum.chat.online_status')}
             </div>
           </div>
 
@@ -105,7 +105,7 @@ export default class ChatPage extends Page {
       .save({ content })
       .then((message: any) => {
         this.messages.push(message);
-        const limit = Number(app.forum.attribute('acmeChatroomMessageLimit')) || 100;
+        const limit = Number(app.forum.attribute('wyatts97ChatroomMessageLimit')) || 100;
         if (this.messages.length > limit) {
           this.messages = this.messages.slice(-limit);
         }
@@ -113,7 +113,7 @@ export default class ChatPage extends Page {
         m.redraw();
       })
       .catch((err: any) => {
-        alert(err.errors?.[0]?.detail || app.translator.trans('acme-chatroom.forum.chat.send_error'));
+        alert(err.errors?.[0]?.detail || app.translator.trans('wyatts97-chatroom.forum.chat.send_error'));
       });
   }
 
@@ -121,7 +121,7 @@ export default class ChatPage extends Page {
     const message = this.messages.find((m) => m.id() === id);
     if (!message) return;
 
-    if (!confirm(app.translator.trans('acme-chatroom.forum.chat.delete_confirm'))) return;
+    if (!confirm(app.translator.trans('wyatts97-chatroom.forum.chat.delete_confirm'))) return;
 
     app.store
       .deleteRecord(message)
@@ -130,7 +130,7 @@ export default class ChatPage extends Page {
         m.redraw();
       })
       .catch(() => {
-        alert(app.translator.trans('acme-chatroom.forum.chat.delete_error'));
+        alert(app.translator.trans('wyatts97-chatroom.forum.chat.delete_error'));
       });
   }
 }

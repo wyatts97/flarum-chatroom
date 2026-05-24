@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Acme\Chatroom\Event;
+namespace Wyatts97\Chatroom\Event;
 
-use Acme\Chatroom\Model\ChatMessage;
+use Wyatts97\Chatroom\Model\ChatMessage;
 use Flarum\User\User;
 
 class ChatMessagePosted

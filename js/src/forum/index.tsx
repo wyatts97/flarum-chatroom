@@ -4,8 +4,8 @@ import HeaderPrimary from 'flarum/forum/components/HeaderPrimary';
 import LinkButton from 'flarum/common/components/LinkButton';
 import ChatPage from './components/ChatPage';
 
-app.initializers.add('acme/chatroom', () => {
-  app.routes['acme.chatroom'] = {
+app.initializers.add('wyatts97/chatroom', () => {
+  app.routes['wyatts97.chatroom'] = {
     path: '/chat',
     component: ChatPage,
   };
@@ -16,10 +16,10 @@ app.initializers.add('acme/chatroom', () => {
         'chatroom',
         <LinkButton
           icon="fas fa-comments"
-          href={app.route('acme.chatroom')}
-          active={app.current.matches('acme.chatroom')}
+          href={app.route('wyatts97.chatroom')}
+          active={app.current.matches('wyatts97.chatroom')}
         >
-          {app.translator.trans('acme-chatroom.forum.nav.chat_link')}
+          {app.translator.trans('wyatts97-chatroom.forum.nav.chat_link')}
         </LinkButton>,
         20
       );

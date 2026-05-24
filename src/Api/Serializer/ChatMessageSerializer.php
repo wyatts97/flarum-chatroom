@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Acme\Chatroom\Api\Serializer;
+namespace Wyatts97\Chatroom\Api\Serializer;
 
-use Acme\Chatroom\Model\ChatMessage;
+use Wyatts97\Chatroom\Model\ChatMessage;
 use Flarum\Api\Serializer\AbstractSerializer;
 use Flarum\Api\Serializer\BasicUserSerializer;
 

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-use Acme\Chatroom\Api\Controller\CreateChatMessageController;
-use Acme\Chatroom\Api\Controller\DeleteChatMessageController;
-use Acme\Chatroom\Api\Controller\ListChatMessagesController;
-use Acme\Chatroom\Api\Serializer\ChatMessageSerializer;
-use Acme\Chatroom\Model\ChatMessage;
-use Acme\Chatroom\Policy\ChatMessagePolicy;
-use Acme\Chatroom\Provider\ChatroomServiceProvider;
+use Wyatts97\Chatroom\Api\Controller\CreateChatMessageController;
+use Wyatts97\Chatroom\Api\Controller\DeleteChatMessageController;
+use Wyatts97\Chatroom\Api\Controller\ListChatMessagesController;
+use Wyatts97\Chatroom\Api\Serializer\ChatMessageSerializer;
+use Wyatts97\Chatroom\Model\ChatMessage;
+use Wyatts97\Chatroom\Policy\ChatMessagePolicy;
+use Wyatts97\Chatroom\Provider\ChatroomServiceProvider;
 use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Extend;
 use Flarum\Settings\SettingsRepositoryInterface;
@@ -20,7 +20,7 @@ return [
     (new Extend\Frontend('forum'))
         ->js(__DIR__ . '/js/dist/forum.js')
         ->css(__DIR__ . '/less/forum.less')
-        ->route('/chat', 'acme.chatroom'),
+        ->route('/chat', 'wyatts97.chatroom'),
 
     (new Extend\Frontend('admin'))
         ->js(__DIR__ . '/js/dist/admin.js')
@@ -36,9 +36,9 @@ return [
         ->serializer(ChatMessageSerializer::class),
 
     (new Extend\Routes('api'))
-        ->get('/chat/messages', 'acme.chatroom.messages.index', ListChatMessagesController::class)
-        ->post('/chat/messages', 'acme.chatroom.messages.create', CreateChatMessageController::class)
-        ->delete('/chat/messages/{id}', 'acme.chatroom.messages.delete', DeleteChatMessageController::class),
+        ->get('/chat/messages', 'wyatts97.chatroom.messages.index', ListChatMessagesController::class)
+        ->post('/chat/messages', 'wyatts97.chatroom.messages.create', CreateChatMessageController::class)
+        ->delete('/chat/messages/{id}', 'wyatts97.chatroom.messages.delete', DeleteChatMessageController::class),
 
     (new Extend\ServiceProvider())
         ->register(ChatroomServiceProvider::class),
@@ -47,19 +47,19 @@ return [
         ->modelPolicy(ChatMessage::class, ChatMessagePolicy::class),
 
     (new Extend\Settings())
-        ->default('acme.chatroom.message_limit', 100)
-        ->default('acme.chatroom.flood_control_seconds', 5)
-        ->default('acme.chatroom.polling_interval', 3000)
-        ->default('acme.chatroom.max_message_length', 1000),
+        ->default('wyatts97.chatroom.message_limit', 100)
+        ->default('wyatts97.chatroom.flood_control_seconds', 5)
+        ->default('wyatts97.chatroom.polling_interval', 3000)
+        ->default('wyatts97.chatroom.max_message_length', 1000),
 
     (new Extend\ApiSerializer(ForumSerializer::class))
         ->attributes(function ($serializer, $model, array $attributes): array {
             /** @var SettingsRepositoryInterface $settings */
             $settings = $serializer->getContainer()->make(SettingsRepositoryInterface::class);
-            $attributes['acmeChatroomPollingInterval'] = (int) $settings->get('acme.chatroom.polling_interval', 3000);
-            $attributes['acmeChatroomMessageLimit'] = (int) $settings->get('acme.chatroom.message_limit', 100);
-            $attributes['acmeChatroomMaxMessageLength'] = (int) $settings->get('acme.chatroom.max_message_length', 1000);
-            $attributes['acmeChatroomFloodControlSeconds'] = (int) $settings->get('acme.chatroom.flood_control_seconds', 5);
+            $attributes['wyatts97ChatroomPollingInterval'] = (int) $settings->get('wyatts97.chatroom.polling_interval', 3000);
+            $attributes['wyatts97ChatroomMessageLimit'] = (int) $settings->get('wyatts97.chatroom.message_limit', 100);
+            $attributes['wyatts97ChatroomMaxMessageLength'] = (int) $settings->get('wyatts97.chatroom.max_message_length', 1000);
+            $attributes['wyatts97ChatroomFloodControlSeconds'] = (int) $settings->get('wyatts97.chatroom.flood_control_seconds', 5);
             return $attributes;
         }),
 

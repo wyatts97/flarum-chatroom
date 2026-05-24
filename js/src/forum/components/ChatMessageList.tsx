@@ -32,7 +32,7 @@ export default class ChatMessageList extends Component<IAttrs> {
         <div className="ChatMessageList ChatMessageList--empty">
           <div className="ChatMessageList-placeholder">
             <i className="fas fa-comment-dots ChatMessageList-placeholderIcon" />
-            <p>{app.translator.trans('acme-chatroom.forum.chat.no_messages')}</p>
+            <p>{app.translator.trans('wyatts97-chatroom.forum.chat.no_messages')}</p>
           </div>
         </div>
       );

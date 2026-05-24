@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Acme\Chatroom\Api\Controller;
+namespace Wyatts97\Chatroom\Api\Controller;
 
-use Acme\Chatroom\Model\ChatMessage;
+use Wyatts97\Chatroom\Model\ChatMessage;
 use Flarum\Api\Controller\AbstractDeleteController;
 use Flarum\Http\RequestUtil;
 use Illuminate\Support\Arr;

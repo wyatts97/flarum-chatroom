@@ -1,5 +1,5 @@
 {
-    "name": "acme/flarum-chatroom",
+    "name": "wyatts97/flarum-chatroom",
     "description": "A real-time chatroom extension for Flarum v2.x",
     "keywords": ["flarum", "chat", "messaging", "real-time"],
     "type": "flarum-extension",
@@ -10,7 +10,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Acme\\Chatroom\\": "src/"
+            "Wyatts97\\Chatroom\\": "src/"
         }
     },
     "extra": {

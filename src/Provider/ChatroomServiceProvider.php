@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Acme\Chatroom\Provider;
+namespace Wyatts97\Chatroom\Provider;
 
 use Flarum\Foundation\AbstractServiceProvider;
 
