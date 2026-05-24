@@ -1,7 +1,7 @@
-/vendor/
-/js/node_modules/
-/js/dist/
-composer.lock
-package-lock.json
-.DS_Store
+node_modules/
+vendor/
+.idea/
+.vscode/
 *.log
+.DS_Store
+Thumbs.db
