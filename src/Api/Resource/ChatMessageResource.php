@@ -45,8 +45,7 @@ class ChatMessageResource extends AbstractDatabaseResource
         $query->whereHas('user');
 
         // Filter by 'since' parameter for polling
-        $params = $context->request->getQueryParams();
-        $since = $params['filter']['since'] ?? null;
+        $since = $context->request->getQueryParams()['since'] ?? null;
         if ($since) {
             try {
                 $sinceDate = new \DateTime($since);

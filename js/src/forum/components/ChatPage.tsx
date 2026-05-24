@@ -38,7 +38,7 @@ export default class ChatPage extends Page {
     };
 
     if (this.lastFetch) {
-      params['filter[since]'] = this.lastFetch.toISOString();
+      params.since = this.lastFetch.toISOString();
     }
 
     app.store
