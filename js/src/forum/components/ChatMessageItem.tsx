@@ -39,7 +39,8 @@ export default class ChatMessageItem extends Component<IAttrs> {
   view(vnode: Mithril.Vnode<IAttrs>) {
     const { message, onDelete, isGrouped } = vnode.attrs;
     const user = message.user?.() || null;
-    const canDelete = message.canDelete?.() ?? false;
+    const currentUser = app.session.user;
+    const canDelete = currentUser && user && (currentUser.id() === user.id() || currentUser.isAdmin());
     const createdAt = safeDate(message.createdAt());
     const editedAt = safeDate(message.editedAt());
     const shortTime = formatShortTime(createdAt);

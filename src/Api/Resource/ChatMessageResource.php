@@ -86,7 +86,6 @@ class ChatMessageResource extends AbstractDatabaseResource
             Schema\Relationship\ToOne::make('editedUser')
                 ->type('users')
                 ->includable(),
-            Schema\Boolean::make('canDelete'),
         ];
     }
 
