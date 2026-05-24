@@ -5,12 +5,12 @@ declare(strict_types=1);
 use Wyatts97\Chatroom\Api\Controller\CreateChatMessageController;
 use Wyatts97\Chatroom\Api\Controller\DeleteChatMessageController;
 use Wyatts97\Chatroom\Api\Controller\ListChatMessagesController;
+use Wyatts97\Chatroom\Listener\AddForumSerializerAttributes;
 use Wyatts97\Chatroom\Model\ChatMessage;
 use Wyatts97\Chatroom\Policy\ChatMessagePolicy;
 use Wyatts97\Chatroom\Provider\ChatroomServiceProvider;
-use Flarum\Api\Serializer\ForumSerializer;
+use Flarum\Api\Event\Serializing;
 use Flarum\Extend;
-use Flarum\Settings\SettingsRepositoryInterface;
 
 return [
     new Extend\Locales(__DIR__ . '/resources/locale'),
@@ -47,16 +47,6 @@ return [
         ->default('wyatts97.chatroom.polling_interval', 3000)
         ->default('wyatts97.chatroom.max_message_length', 1000),
 
-    (new Extend\ApiSerializer(ForumSerializer::class))
-        ->attributes(function ($serializer, $model, array $attributes): array {
-            /** @var SettingsRepositoryInterface $settings */
-            $settings = $serializer->getContainer()->make(SettingsRepositoryInterface::class);
-            $attributes['wyatts97ChatroomPollingInterval'] = (int) $settings->get('wyatts97.chatroom.polling_interval', 3000);
-            $attributes['wyatts97ChatroomMessageLimit'] = (int) $settings->get('wyatts97.chatroom.message_limit', 100);
-            $attributes['wyatts97ChatroomMaxMessageLength'] = (int) $settings->get('wyatts97.chatroom.max_message_length', 1000);
-            $attributes['wyatts97ChatroomFloodControlSeconds'] = (int) $settings->get('wyatts97.chatroom.flood_control_seconds', 5);
-            return $attributes;
-        }),
-
-    new Extend\Event(),
+    (new Extend\Event())
+        ->listen(Serializing::class, AddForumSerializerAttributes::class),
 ];
