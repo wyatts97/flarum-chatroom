@@ -10,6 +10,9 @@ export default class ChatPage extends Page {
   messages: any[] = [];
   loading = true;
   pollingInterval: ReturnType<typeof setInterval> | null = null;
+  isAtBottom = true;
+  showNewMessagesButton = false;
+  hasNewMessages = false;
 
   oninit(vnode: Mithril.Vnode) {
     super.oninit(vnode);
@@ -42,7 +45,13 @@ export default class ChatPage extends Page {
         if (results && results.length > 0) {
           const existingIds = new Set(this.messages.map((m) => m.id()));
           const newMessages = results.filter((m) => !existingIds.has(m.id()));
-          this.messages.push(...newMessages);
+          if (newMessages.length > 0) {
+            if (!this.isAtBottom) {
+              this.hasNewMessages = true;
+              this.showNewMessagesButton = true;
+            }
+            this.messages.push(...newMessages);
+          }
           // Keep within limit
           const limit = Number(app.forum.attribute('wyatts97ChatroomMessageLimit')) || 100;
           if (this.messages.length > limit) {
@@ -79,7 +88,23 @@ export default class ChatPage extends Page {
             {this.loading && this.messages.length === 0 ? (
               <LoadingIndicator />
             ) : (
-              <ChatMessageList messages={this.messages} onDelete={(id: string) => this.handleDelete(id)} />
+              <ChatMessageList
+                messages={this.messages}
+                onDelete={(id: string) => this.handleDelete(id)}
+                onScrollChange={(isAtBottom: boolean) => {
+                  this.isAtBottom = isAtBottom;
+                  if (isAtBottom) {
+                    this.showNewMessagesButton = false;
+                    this.hasNewMessages = false;
+                  }
+                }}
+                showNewMessagesButton={this.showNewMessagesButton}
+                onScrollToBottom={() => {
+                  this.showNewMessagesButton = false;
+                  this.hasNewMessages = false;
+                  this.isAtBottom = true;
+                }}
+              />
             )}
           </div>
 

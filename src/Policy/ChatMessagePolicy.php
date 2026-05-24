@@ -10,7 +10,7 @@ use Flarum\User\User;
 
 class ChatMessagePolicy extends AbstractPolicy
 {
-    public function createChatMessage(User $actor): bool
+    public function createChatMessage(User $actor, ChatMessage $model): bool
     {
         return $actor->isRegisteredUser();
     }
