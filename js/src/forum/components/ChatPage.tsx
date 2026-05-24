@@ -35,7 +35,6 @@ export default class ChatPage extends Page {
   loadMessages(sinceOnly = false) {
     const params: Record<string, string> = {
       include: 'user,editedUser',
-      limit: String(app.forum.attribute('wyatts97ChatroomMessageLimit') || 100),
     };
 
     if (this.lastFetch) {

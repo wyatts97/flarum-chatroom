@@ -59,7 +59,8 @@ class ChatMessageResource extends AbstractDatabaseResource
         return [
             Endpoint\Index::make()
                 ->defaultInclude(['user', 'editedUser'])
-                ->authenticated(),
+                ->authenticated()
+                ->paginate(100, 100),
             Endpoint\Create::make()
                 ->authenticated()
                 ->can('createChatMessage'),
