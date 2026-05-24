@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Flarum\Api\Endpoint;
 use Flarum\Api\Resource\AbstractDatabaseResource;
 use Flarum\Api\Schema;
+use Flarum\Api\Sort\SortColumn;
 use Flarum\Foundation\ValidationException;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
@@ -59,6 +60,13 @@ class ChatMessageResource extends AbstractDatabaseResource
             Endpoint\Delete::make()
                 ->authenticated()
                 ->can('deleteChatMessage'),
+        ];
+    }
+
+    public function sorts(): array
+    {
+        return [
+            SortColumn::make('createdAt'),
         ];
     }
 
