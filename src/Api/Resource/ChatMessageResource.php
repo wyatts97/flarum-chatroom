@@ -45,7 +45,8 @@ class ChatMessageResource extends AbstractDatabaseResource
         $query->whereHas('user');
 
         // Filter by 'since' parameter for polling
-        $since = $context->filter('since');
+        $params = $context->request()->getQueryParams();
+        $since = $params['since'] ?? null;
         if ($since) {
             $sinceDate = \DateTime::createFromFormat(\DateTime::ATOM, $since);
             if ($sinceDate) {
@@ -59,8 +60,7 @@ class ChatMessageResource extends AbstractDatabaseResource
         return [
             Endpoint\Index::make()
                 ->defaultInclude(['user', 'editedUser'])
-                ->authenticated()
-                ->limit(100, 100),
+                ->authenticated(),
             Endpoint\Create::make()
                 ->authenticated()
                 ->can('createChatMessage'),
