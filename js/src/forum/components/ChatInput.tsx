@@ -9,12 +9,14 @@ interface IAttrs {
 export default class ChatInput extends Component<IAttrs> {
   value = '';
   sending = false;
+  textareaEl!: HTMLTextAreaElement;
 
   handleSend(onSend: (content: string) => void) {
     const content = this.value.trim();
     if (!content) return;
     this.value = '';
     this.sending = true;
+    this.autoGrow();
     onSend(content);
     this.sending = false;
   }
@@ -24,6 +26,12 @@ export default class ChatInput extends Component<IAttrs> {
       e.preventDefault();
       this.handleSend(onSend);
     }
+  }
+
+  autoGrow() {
+    if (!this.textareaEl) return;
+    this.textareaEl.style.height = 'auto';
+    this.textareaEl.style.height = Math.min(this.textareaEl.scrollHeight, 120) + 'px';
   }
 
   view(vnode: Mithril.Vnode<IAttrs>) {
@@ -40,9 +48,11 @@ export default class ChatInput extends Component<IAttrs> {
             value={this.value}
             oninput={(e: Event) => {
               this.value = (e.target as HTMLTextAreaElement).value;
+              this.autoGrow();
             }}
             onkeydown={(e: KeyboardEvent) => this.handleKeydown(e, vnode.attrs.onSend)}
             rows={1}
+            ref={(el: HTMLTextAreaElement) => (this.textareaEl = el)}
           />
           <div className="ChatInput-counter">
             {this.value.length}/{maxLength}

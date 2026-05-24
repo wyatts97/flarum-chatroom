@@ -10,6 +10,37 @@ interface IAttrs {
   onScrollToBottom?: () => void;
 }
 
+function isSameDay(d1: Date | null, d2: Date | null): boolean {
+  if (!d1 || !d2) return false;
+  return (
+    d1.getFullYear() === d2.getFullYear() &&
+    d1.getMonth() === d2.getMonth() &&
+    d1.getDate() === d2.getDate()
+  );
+}
+
+function formatDateSeparator(date: Date): string {
+  const now = new Date();
+  const yesterday = new Date();
+  yesterday.setDate(now.getDate() - 1);
+
+  if (isSameDay(date, now)) return 'Today';
+  if (isSameDay(date, yesterday)) return 'Yesterday';
+
+  return date.toLocaleDateString(undefined, {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+}
+
+function safeDate(value: any): Date | null {
+  if (!value) return null;
+  const d = value instanceof Date ? value : new Date(value);
+  return isNaN(d.getTime()) ? null : d;
+}
+
 export default class ChatMessageList extends Component<IAttrs> {
   container!: HTMLDivElement;
   shouldAutoScroll = true;
@@ -47,9 +78,12 @@ export default class ChatMessageList extends Component<IAttrs> {
     }
   };
 
-  scrollToBottom() {
+  scrollToBottom(smooth = false) {
     if (this.container) {
-      this.container.scrollTop = this.container.scrollHeight;
+      this.container.scrollTo({
+        top: this.container.scrollHeight,
+        behavior: smooth ? 'smooth' : 'auto',
+      });
     }
   }
 
@@ -68,6 +102,7 @@ export default class ChatMessageList extends Component<IAttrs> {
     }
 
     let prevUserId: string | null = null;
+    let prevDate: Date | null = null;
 
     return (
       <div className="ChatMessageList-wrapper">
@@ -80,12 +115,24 @@ export default class ChatMessageList extends Component<IAttrs> {
             const userId = user ? user.id() : null;
             const isGrouped = index > 0 && userId === prevUserId;
             prevUserId = userId;
+
+            const msgDate = safeDate(message.createdAt());
+            const showSeparator = msgDate && !isSameDay(msgDate, prevDate);
+            if (msgDate) prevDate = msgDate;
+
             return (
-              <ChatMessageItem
-                key={message.id()}
-                message={message}
-                isGrouped={isGrouped}
-              />
+              <>
+                {showSeparator && msgDate && (
+                  <div className="ChatMessageList-dateSeparator">
+                    <span>{formatDateSeparator(msgDate)}</span>
+                  </div>
+                )}
+                <ChatMessageItem
+                  key={message.id()}
+                  message={message}
+                  isGrouped={isGrouped}
+                />
+              </>
             );
           })}
         </div>
@@ -94,7 +141,7 @@ export default class ChatMessageList extends Component<IAttrs> {
             className="ChatMessageList-newMessagesButton"
             onclick={() => {
               this.shouldAutoScroll = true;
-              this.scrollToBottom();
+              this.scrollToBottom(true);
               if (onScrollToBottom) onScrollToBottom();
             }}
           >
