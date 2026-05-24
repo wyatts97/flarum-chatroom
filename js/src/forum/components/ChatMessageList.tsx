@@ -121,18 +121,17 @@ export default class ChatMessageList extends Component<IAttrs> {
             if (msgDate) prevDate = msgDate;
 
             return (
-              <>
+              <div key={message.id()} className="ChatMessageList-item">
                 {showSeparator && msgDate && (
                   <div className="ChatMessageList-dateSeparator">
                     <span>{formatDateSeparator(msgDate)}</span>
                   </div>
                 )}
                 <ChatMessageItem
-                  key={message.id()}
                   message={message}
                   isGrouped={isGrouped}
                 />
-              </>
+              </div>
             );
           })}
         </div>

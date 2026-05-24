@@ -1,6 +1,6 @@
 # Flarum Chatroom Extension
 
-A real-time chatroom extension for Flarum v2.x.
+A real-time chatroom extension for Flarum v2
 
 ## Features
 

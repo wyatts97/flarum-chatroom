@@ -16,9 +16,14 @@ export default class ChatInput extends Component<IAttrs> {
     if (!content) return;
     this.value = '';
     this.sending = true;
-    this.autoGrow();
     onSend(content);
     this.sending = false;
+    // Reset height after Mithril clears the value in the next redraw
+    setTimeout(() => {
+      if (this.textareaEl) {
+        this.textareaEl.style.height = 'auto';
+      }
+    }, 0);
   }
 
   handleKeydown(e: KeyboardEvent, onSend: (content: string) => void) {
