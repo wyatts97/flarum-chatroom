@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Wyatts97\Chatroom\Api\Resource;
 
 use Carbon\Carbon;
-use Flarum\Api\Context;
 use Flarum\Api\Endpoint;
 use Flarum\Api\Resource\AbstractDatabaseResource;
 use Flarum\Api\Schema;
@@ -15,6 +14,7 @@ use Flarum\User\User;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
+use Tobyz\JsonApiServer\Context;
 use Wyatts97\Chatroom\Event\ChatMessagePosted;
 use Wyatts97\Chatroom\Model\ChatMessage;
 
