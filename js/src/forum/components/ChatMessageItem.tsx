@@ -2,7 +2,7 @@ import app from 'flarum/forum/app';
 import Component from 'flarum/common/Component';
 import humanTime from 'flarum/common/helpers/humanTime';
 import username from 'flarum/common/helpers/username';
-import avatar from 'flarum/common/helpers/avatar';
+import Avatar from 'flarum/common/components/Avatar';
 import type Mithril from 'mithril';
 
 interface IAttrs {
@@ -21,7 +21,7 @@ export default class ChatMessageItem extends Component<IAttrs> {
     return (
       <div className={`ChatMessageItem ${isMe ? 'ChatMessageItem--me' : ''}`}>
         <div className="ChatMessageItem-avatar">
-          {user ? avatar(user, { size: 40 }) : <div className="Avatar" />}
+          {user ? <Avatar user={user} size={40} /> : <div className="Avatar" />}
         </div>
         <div className="ChatMessageItem-content">
           <div className="ChatMessageItem-meta">

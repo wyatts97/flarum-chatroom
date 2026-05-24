@@ -123,9 +123,11 @@ class ChatMessageResource extends AbstractDatabaseResource
         return null;
     }
 
-    public function created(object $model, Context $context): void
+    public function created(object $model, Context $context): ?object
     {
         /** @var ChatMessage $model */
         $this->events->dispatch(new ChatMessagePosted($model, $context->getActor()));
+
+        return null;
     }
 }
