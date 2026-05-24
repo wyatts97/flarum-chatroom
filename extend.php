@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-use Wyatts97\Chatroom\Api\Controller\CreateChatMessageController;
-use Wyatts97\Chatroom\Api\Controller\DeleteChatMessageController;
-use Wyatts97\Chatroom\Api\Controller\ListChatMessagesController;
+use Wyatts97\Chatroom\Api\Resource\ChatMessageResource;
 use Wyatts97\Chatroom\Listener\AddForumSerializerAttributes;
 use Wyatts97\Chatroom\Model\ChatMessage;
 use Wyatts97\Chatroom\Policy\ChatMessagePolicy;
@@ -30,10 +28,7 @@ return [
         ->cast('created_at', 'datetime')
         ->cast('updated_at', 'datetime'),
 
-    (new Extend\Routes('api'))
-        ->get('/chat/messages', 'wyatts97.chatroom.messages.index', ListChatMessagesController::class)
-        ->post('/chat/messages', 'wyatts97.chatroom.messages.create', CreateChatMessageController::class)
-        ->delete('/chat/messages/{id}', 'wyatts97.chatroom.messages.delete', DeleteChatMessageController::class),
+    (new Extend\ApiResource(ChatMessageResource::class)),
 
     (new Extend\ServiceProvider())
         ->register(ChatroomServiceProvider::class),

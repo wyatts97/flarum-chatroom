@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "cross-env": "^10.1.0",
+    "flarum-tsconfig": "^2.0.0",
+    "flarum-webpack-config": "^3.0.4",
+    "typescript": "^6.0.3",
+    "webpack": "^5.107.1",
+    "webpack-cli": "^7.0.2"
+  }
+}

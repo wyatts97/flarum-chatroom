@@ -10,12 +10,12 @@ use Flarum\User\User;
 
 class ChatMessagePolicy extends AbstractPolicy
 {
-    public function edit(User $actor, ChatMessage $message): bool
+    public function createChatMessage(User $actor): bool
     {
-        return $actor->id === $message->user_id || $actor->isAdmin();
+        return $actor->isRegisteredUser();
     }
 
-    public function delete(User $actor, ChatMessage $message): bool
+    public function deleteChatMessage(User $actor, ChatMessage $message): bool
     {
         return $actor->id === $message->user_id || $actor->isAdmin();
     }
