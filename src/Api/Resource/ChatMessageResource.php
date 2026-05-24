@@ -56,9 +56,6 @@ class ChatMessageResource extends AbstractDatabaseResource
                 ->authenticated(),
             Endpoint\Create::make()
                 ->authenticated(),
-            Endpoint\Delete::make()
-                ->authenticated()
-                ->can('deleteChatMessage'),
         ];
     }
 
@@ -94,8 +91,8 @@ class ChatMessageResource extends AbstractDatabaseResource
         /** @var ChatMessage $model */
         $actor = $context->getActor();
 
-        if (! $actor->isRegisteredUser()) {
-            throw new ValidationException(['content' => ['You must be logged in to send messages.']]);
+        if (! $actor->can('createChatMessage')) {
+            throw new ValidationException(['content' => ['You do not have permission to send messages.']]);
         }
 
         $content = trim((string) $model->content);

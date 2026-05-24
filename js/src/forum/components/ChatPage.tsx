@@ -90,7 +90,6 @@ export default class ChatPage extends Page {
             ) : (
               <ChatMessageList
                 messages={this.messages}
-                onDelete={(id: string) => this.handleDelete(id)}
                 onScrollChange={(isAtBottom: boolean) => {
                   this.isAtBottom = isAtBottom;
                   if (isAtBottom) {
@@ -133,20 +132,4 @@ export default class ChatPage extends Page {
       });
   }
 
-  handleDelete(id: string) {
-    const message = this.messages.find((m) => m.id() === id);
-    if (!message) return;
-
-    if (!confirm(app.translator.trans('wyatts97-chatroom.forum.chat.delete_confirm'))) return;
-
-    app.store
-      .deleteRecord(message)
-      .then(() => {
-        this.messages = this.messages.filter((m) => m.id() !== id);
-        m.redraw();
-      })
-      .catch(() => {
-        alert(app.translator.trans('wyatts97-chatroom.forum.chat.delete_error'));
-      });
-  }
 }

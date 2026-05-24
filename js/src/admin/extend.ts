@@ -51,14 +51,5 @@ export default [
       }),
       'start',
       50
-    )
-    .permission(
-      () => ({
-        icon: 'fas fa-trash',
-        label: app.translator.trans('wyatts97-chatroom.admin.permissions.delete_chat_message_label', {}, true),
-        permission: 'deleteChatMessage',
-      }),
-      'moderate',
-      50
     ),
 ];

@@ -7,7 +7,6 @@ import type Mithril from 'mithril';
 
 interface IAttrs {
   message: any;
-  onDelete: (id: string) => void;
   isGrouped: boolean;
 }
 
@@ -37,10 +36,8 @@ function formatDateTitle(date: Date | null): string {
 
 export default class ChatMessageItem extends Component<IAttrs> {
   view(vnode: Mithril.Vnode<IAttrs>) {
-    const { message, onDelete, isGrouped } = vnode.attrs;
+    const { message, isGrouped } = vnode.attrs;
     const user = message.user?.() || null;
-    const currentUser = app.session.user;
-    const canDelete = currentUser && user && (currentUser.id() === user.id() || currentUser.isAdmin());
     const createdAt = safeDate(message.createdAt());
     const editedAt = safeDate(message.editedAt());
     const shortTime = formatShortTime(createdAt);
@@ -52,15 +49,6 @@ export default class ChatMessageItem extends Component<IAttrs> {
           <div className="ChatMessageItem-content">
             <div className="ChatMessageItem-bubble">
               <div className="ChatMessageItem-text">{message.content()}</div>
-              {canDelete && (
-                <button
-                  className="Button Button--icon Button--link ChatMessageItem-delete"
-                  onclick={() => onDelete(message.id())}
-                  title={app.translator.trans('wyatts97-chatroom.forum.chat.delete')}
-                >
-                  <i className="fas fa-trash" />
-                </button>
-              )}
             </div>
           </div>
         </div>
@@ -86,15 +74,6 @@ export default class ChatMessageItem extends Component<IAttrs> {
           </div>
           <div className="ChatMessageItem-bubble">
             <div className="ChatMessageItem-text">{message.content()}</div>
-            {canDelete && (
-              <button
-                className="Button Button--icon Button--link ChatMessageItem-delete"
-                onclick={() => onDelete(message.id())}
-                title={app.translator.trans('wyatts97-chatroom.forum.chat.delete')}
-              >
-                <i className="fas fa-trash" />
-              </button>
-            )}
           </div>
         </div>
       </div>

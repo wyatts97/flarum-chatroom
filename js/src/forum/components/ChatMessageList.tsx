@@ -5,7 +5,6 @@ import type Mithril from 'mithril';
 
 interface IAttrs {
   messages: any[];
-  onDelete: (id: string) => void;
   onScrollChange?: (isAtBottom: boolean) => void;
   showNewMessagesButton?: boolean;
   onScrollToBottom?: () => void;
@@ -55,7 +54,7 @@ export default class ChatMessageList extends Component<IAttrs> {
   }
 
   view(vnode: Mithril.Vnode<IAttrs>) {
-    const { messages, onDelete, showNewMessagesButton, onScrollToBottom } = vnode.attrs;
+    const { messages, showNewMessagesButton, onScrollToBottom } = vnode.attrs;
 
     if (!messages || messages.length === 0) {
       return (
@@ -85,7 +84,6 @@ export default class ChatMessageList extends Component<IAttrs> {
               <ChatMessageItem
                 key={message.id()}
                 message={message}
-                onDelete={onDelete}
                 isGrouped={isGrouped}
               />
             );
