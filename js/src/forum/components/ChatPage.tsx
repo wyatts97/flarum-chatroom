@@ -10,7 +10,6 @@ export default class ChatPage extends Page {
   messages: any[] = [];
   loading = true;
   pollingInterval: ReturnType<typeof setInterval> | null = null;
-  lastFetch: Date | null = null;
 
   oninit(vnode: Mithril.Vnode) {
     super.oninit(vnode);
@@ -28,18 +27,14 @@ export default class ChatPage extends Page {
   startPolling() {
     const interval = Number(app.forum.attribute('wyatts97ChatroomPollingInterval')) || 3000;
     this.pollingInterval = setInterval(() => {
-      this.loadMessages(true);
+      this.loadMessages();
     }, interval);
   }
 
-  loadMessages(sinceOnly = false) {
+  loadMessages() {
     const params: Record<string, string> = {
       include: 'user,editedUser',
     };
-
-    if (this.lastFetch) {
-      params.since = this.lastFetch.toISOString();
-    }
 
     app.store
       .find('chatMessages', params)
@@ -53,10 +48,8 @@ export default class ChatPage extends Page {
           if (this.messages.length > limit) {
             this.messages = this.messages.slice(-limit);
           }
-          this.lastFetch = new Date();
-        } else if (!sinceOnly && (!this.messages || this.messages.length === 0)) {
+        } else if (!this.messages || this.messages.length === 0) {
           this.messages = results || [];
-          this.lastFetch = new Date();
         }
         this.loading = false;
         m.redraw();
@@ -108,7 +101,6 @@ export default class ChatPage extends Page {
         if (this.messages.length > limit) {
           this.messages = this.messages.slice(-limit);
         }
-        this.lastFetch = new Date();
         m.redraw();
       })
       .catch((err: any) => {

@@ -43,17 +43,6 @@ class ChatMessageResource extends AbstractDatabaseResource
     {
         // All registered users can view chat messages
         $query->whereHas('user');
-
-        // Filter by 'since' parameter for polling
-        $since = $context->request->getQueryParams()['since'] ?? null;
-        if ($since) {
-            try {
-                $sinceDate = new \DateTime($since);
-                $query->where('created_at', '>', $sinceDate);
-            } catch (\Exception $e) {
-                // Invalid date format, ignore filter
-            }
-        }
     }
 
     public function endpoints(): array
@@ -61,6 +50,8 @@ class ChatMessageResource extends AbstractDatabaseResource
         return [
             Endpoint\Index::make()
                 ->defaultInclude(['user', 'editedUser'])
+                ->defaultSort('-createdAt')
+                ->paginate(50, 100)
                 ->authenticated(),
             Endpoint\Create::make()
                 ->authenticated()
@@ -112,7 +103,7 @@ class ChatMessageResource extends AbstractDatabaseResource
                 ->orderBy('created_at', 'desc')
                 ->first();
 
-            if ($latest && $latest->created_at->diffInSeconds(Carbon::now()) < $floodSeconds) {
+            if ($latest && $latest->created_at && $latest->created_at->diffInSeconds(Carbon::now()) < $floodSeconds) {
                 throw new ValidationException(['content' => ['Please wait a moment before sending another message.']]);
             }
         }
