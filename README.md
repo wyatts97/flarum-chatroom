@@ -16,7 +16,7 @@ A real-time chatroom extension for Flarum v2.x.
 ## Requirements
 
 - PHP >= 8.2
-- Flarum >= 2.0
+- Flarum >= 2.0.0-rc.1
 - MySQL / MariaDB
 
 ## Installation
