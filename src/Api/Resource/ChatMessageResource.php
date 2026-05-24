@@ -46,11 +46,13 @@ class ChatMessageResource extends AbstractDatabaseResource
 
         // Filter by 'since' parameter for polling
         $params = $context->request->getQueryParams();
-        $since = $params['since'] ?? null;
+        $since = $params['filter']['since'] ?? null;
         if ($since) {
-            $sinceDate = \DateTime::createFromFormat(\DateTime::ATOM, $since);
-            if ($sinceDate) {
+            try {
+                $sinceDate = new \DateTime($since);
                 $query->where('created_at', '>', $sinceDate);
+            } catch (\Exception $e) {
+                // Invalid date format, ignore filter
             }
         }
     }
