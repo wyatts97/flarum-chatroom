@@ -45,7 +45,7 @@ class ChatMessageResource extends AbstractDatabaseResource
         $query->whereHas('user');
 
         // Filter by 'since' parameter for polling
-        $params = $context->request()->getQueryParams();
+        $params = $context->request->getQueryParams();
         $since = $params['since'] ?? null;
         if ($since) {
             $sinceDate = \DateTime::createFromFormat(\DateTime::ATOM, $since);
@@ -117,7 +117,7 @@ class ChatMessageResource extends AbstractDatabaseResource
         }
 
         $model->user_id = $actor->id;
-        $model->ip_address = $context->request()->getServerParams()['REMOTE_ADDR'] ?? null;
+        $model->ip_address = $context->request->getServerParams()['REMOTE_ADDR'] ?? null;
 
         return null;
     }
